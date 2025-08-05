@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 QuizMaster - Topics</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="user-profile">
+            <img id="userAvatar" src="" alt="User Avatar">
+            <span id="userName"></span>
+        </div>
+        <h1><i class="fas fa-book-open"></i> Choose Your Challenge</h1>
+    </header>
+
+    <div class="container">
+        <div id="topicsGrid" class="topics-grid">
+            <!-- Topics will be loaded by JavaScript -->
+        </div>
+        
+        <button id="backButton" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </button>
+    </div>
+
+    <script src="js/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load user data
+            const userData = JSON.parse(sessionStorage.getItem('quizUser'));
+            if (!userData) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            document.getElementById('userAvatar').src = userData.avatar;
+            document.getElementById('userName').textContent = userData.name;
+            
+            // Load topics
+            const quizData = getQuizData();
+            const topicsGrid = document.getElementById('topicsGrid');
+            
+            quizData.forEach(topic => {
+                const topicCard = document.createElement('div');
+                topicCard.className = 'topic-card';
+                topicCard.innerHTML = `
+                    <div class="topic-icon">
+                        <i class="fas ${topic.id === 1 ? 'fa-js' : 'fa-react'}"></i>
+                    </div>
+                    <h3>${topic.title}</h3>
+                    <p>${topic.description}</p>
+                    <div class="topic-meta">
+                        <span class="difficulty ${topic.difficulty.toLowerCase()}">
+                            <i class="fas ${topic.difficulty === 'Easy' ? 'fa-smile' : 
+                              topic.difficulty === 'Medium' ? 'fa-meh' : 'fa-frown'}"></i>
+                            ${topic.difficulty}
+                        </span>
+                        <span class="questions-count">
+                            <i class="fas fa-question"></i>
+                            ${topic.questions.length} Qs
+                        </span>
+                    </div>
+                    <button class="start-quiz-button">
+                        Start Quiz <i class="fas fa-arrow-right"></i>
+                    </button>
+                `;
+                
+                topicCard.querySelector('.start-quiz-button').addEventListener('click', () => {
+                    window.location.href = `quiz.html?topic=${topic.id}`;
+                });
+                
+                topicsGrid.appendChild(topicCard);
+            });
+            
+            document.getElementById('backButton').addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 QuizMaster - Quiz</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="quiz-progress">
+            <div class="progress-bar" id="progressBar"></div>
+            <span id="questionCount">1/10</span>
+        </div>
+        <div class="quiz-header">
+            <div class="quiz-timer">
+                <i class="fas fa-clock"></i>
+                <span id="timer">30s</span>
+            </div>
+            <div class="quiz-score">
+                <i class="fas fa-star"></i>
+                <span id="score">0</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="quiz-container">
+        <h2 id="quizTitle">JavaScript Quiz</h2>
+        
+        <div id="questionContainer" class="question-container">
+            <!-- Question and options will be loaded by JavaScript -->
+        </div>
+
+        <button id="nextButton" class="next-button" style="display: none;">
+            Next Question <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <script src="js/js/app.js"></script>
+    <script src="js/js/quiz.js"></script>
+</body>
+</html>

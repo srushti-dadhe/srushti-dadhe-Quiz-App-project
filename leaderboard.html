@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 QuizMaster - Leaderboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-trophy"></i> Leaderboard</h1>
+        <p>See how you compare with other QuizMasters!</p>
+    </header>
+
+    <div class="container leaderboard-container">
+        <div class="filter-controls">
+            <button id="filterAll" class="active">
+                <i class="fas fa-globe"></i> All Topics
+            </button>
+            <button id="filterJS">
+                <i class="fab fa-js"></i> JavaScript
+            </button>
+            <button id="filterReact">
+                <i class="fab fa-react"></i> React
+            </button>
+        </div>
+        
+        <div class="leaderboard-table-container">
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>Score</th>
+                        <th>Topic</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody">
+                    <!-- Leaderboard data will be loaded by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <button id="backButton" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </button>
+    </div>
+
+    <script src="js/js/app.js"></script>
+    <script src="js/js/leaderboard.js"></script>
+</body>
+</html>

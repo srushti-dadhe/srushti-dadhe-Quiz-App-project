@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 QuizMaster - Welcome</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="welcome-container">
+        <div class="welcome-card">
+            <div class="logo">
+                <img src="image/21de6aa253ae7842546c9258b5f9495d.jpg" alt="QuizMaster Logo">
+                <h1>🎯 QuizMaster</h1>
+            </div>
+            
+            <p class="tagline">Test your knowledge & climb the leaderboard! 🚀</p>
+            
+            <div class="login-form">
+                <h2><i class="fas fa-user"></i> Enter Your Details</h2>
+                <form id="userForm">
+                    <div class="form-group">
+                        <label for="userName"><i class="fas fa-signature"></i> Your Name:</label>
+                        <input type="text" id="userName" required placeholder="Srushti Dadhe">
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail"><i class="fas fa-envelope"></i> Email:</label>
+                        <input type="email" id="userEmail" required placeholder="Srushtidadhe611@example.com">
+                    </div>
+                    <button type="submit" class="primary-button">
+                        <i class="fas fa-play"></i> Start Playing
+                    </button>
+                </form>
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-trophy"></i>
+                    <span>Compete on the leaderboard</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-stopwatch"></i>
+                    <span>Timed challenges</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Learn with feedback</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="welcome-image">
+            <img src="image/stock-vector-people-at-tv-quiz-show-vector-concept-men-and-women-stand-behind-points-counter-and-answer-2331881531.jpg" alt="People taking quiz">
+        </div>
+    </div>
+
+    <script src="./js/js/app.js"></script>
+    <script>
+        document.getElementById('userForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const userName = document.getElementById('userName').value;
+            const userEmail = document.getElementById('userEmail').value;
+            
+            // Store user data in sessionStorage
+            sessionStorage.setItem('quizUser', JSON.stringify({
+                name: userName,
+                email: userEmail,
+                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=random`
+            }));
+            
+            window.location.href = 'topics.html';
+        });
+    </script>
+</body>
+</html>

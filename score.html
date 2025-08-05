@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 QuizMaster - Results</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="score-container">
+        <div class="score-header">
+            <div class="user-info">
+                <img id="resultAvatar" src="" alt="User Avatar">
+                <div>
+                    <h3 id="resultName"></h3>
+                    <p id="resultEmail"></p>
+                </div>
+            </div>
+            <h1>Quiz Results 🎉</h1>
+        </div>
+        
+        <div class="score-card">
+            <div class="score-display">
+                <div class="score-circle" id="scoreCircle">
+                    <span id="percentage">0%</span>
+                </div>
+                <div class="score-details">
+                    <h2 id="topicTitle">JavaScript Quiz</h2>
+                    <p id="scoreText">You scored 0 out of 0</p>
+                    <p id="feedback" class="feedback"></p>
+                    
+                    <div class="score-stats">
+                        <div class="stat">
+                            <i class="fas fa-check correct-stat"></i>
+                            <span id="correctCount">0</span> Correct
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-times incorrect-stat"></i>
+                            <span id="incorrectCount">0</span> Incorrect
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="badges">
+                <div class="badge" id="timeBadge">
+                    <i class="fas fa-stopwatch"></i>
+                    <span>Speedster</span>
+                </div>
+                <div class="badge" id="scoreBadge">
+                    <i class="fas fa-trophy"></i>
+                    <span>High Scorer</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="button-group">
+            <button id="tryAnother" class="primary-button">
+                <i class="fas fa-redo"></i> Try Another Quiz
+            </button>
+            <button id="viewLeaderboard" class="secondary-button">
+                <i class="fas fa-medal"></i> View Leaderboard
+            </button>
+            <button id="backHome" class="tertiary-button">
+                <i class="fas fa-home"></i> Back to Home
+            </button>
+        </div>
+    </div>
+
+    <script src="js/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get user data
+            const userData = JSON.parse(sessionStorage.getItem('quizUser'));
+            if (!userData) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Display user info
+            document.getElementById('resultAvatar').src = userData.avatar;
+            document.getElementById('resultName').textContent = userData.name;
+            document.getElementById('resultEmail').textContent = userData.email;
+            
+            // Get quiz results
+            const params = new URLSearchParams(window.location.search);
+            const score = parseInt(params.get('score') || 0);
+            const totalQuestions = parseInt(params.get('total') || 0);
+            const topicId = parseInt(params.get('topic') || 0);
+            
+            const quizData = getQuizData();
+            const topic = quizData.find(t => t.id === topicId);
+            const percentage = Math.round((score / totalQuestions) * 100);
+            
+            // Update UI
+            document.getElementById('topicTitle').textContent = `${topic?.title || 'Quiz'} Results`;
+            document.getElementById('percentage').textContent = `${percentage}%`;
+            document.getElementById('scoreText').textContent = 
+                `You scored ${score} out of ${totalQuestions}`;
+            document.getElementById('correctCount').textContent = score;
+            document.getElementById('incorrectCount').textContent = totalQuestions - score;
+            
+            // Set feedback
+            const feedback = document.getElementById('feedback');
+            if (percentage >= 80) {
+                feedback.textContent = '🏆 Excellent job! You really know your stuff!';
+                feedback.className = 'feedback excellent';
+            } else if (percentage >= 60) {
+                feedback.textContent = '👍 Good work! You have solid knowledge.';
+                feedback.className = 'feedback good';
+            } else if (percentage >= 40) {
+                feedback.textContent = '💪 Not bad! Keep practicing to improve.';
+                feedback.className = 'feedback average';
+            } else {
+                feedback.textContent = '📚 Keep studying! You can do better next time.';
+                feedback.className = 'feedback poor';
+            }
+            
+            // Set score circle color
+            const scoreCircle = document.getElementById('scoreCircle');
+            if (percentage >= 80) {
+                scoreCircle.style.background = 'linear-gradient(135deg, #4CAF50, #8BC34A)';
+            } else if (percentage >= 60) {
+                scoreCircle.style.background = 'linear-gradient(135deg, #FFC107, #FF9800)';
+            } else if (percentage >= 40) {
+                scoreCircle.style.background = 'linear-gradient(135deg, #FF9800, #FF5722)';
+            } else {
+                scoreCircle.style.background = 'linear-gradient(135deg, #F44336, #E91E63)';
+            }
+            
+            // Show badges based on performance
+            if (percentage >= 90) {
+                document.getElementById('scoreBadge').style.display = 'flex';
+            }
+            if (params.get('fast') === 'true') {
+                document.getElementById('timeBadge').style.display = 'flex';
+            }
+            
+            // Button event listeners
+            document.getElementById('tryAnother').addEventListener('click', () => {
+                window.location.href = 'topics.html';
+            });
+            
+            document.getElementById('viewLeaderboard').addEventListener('click', () => {
+                // Save score to leaderboard
+                const leaderboard = JSON.parse(localStorage.getItem('quizLeaderboard') || []);
+                leaderboard.push({
+                    name: userData.name,
+                    avatar: userData.avatar,
+                    score: percentage,
+                    topic: topic?.title || 'General',
+                    date: new Date().toLocaleDateString(),
+                    email: userData.email
+                });
+                localStorage.setItem('quizLeaderboard', JSON.stringify(leaderboard));
+                
+                window.location.href = 'leaderboard.html';
+            });
+            
+            document.getElementById('backHome').addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>
